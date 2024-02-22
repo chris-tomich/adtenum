@@ -2,44 +2,69 @@ package rustyenums
 
 import "testing"
 
-type Enum[E any] any
+type SingleVariantEnum[E any, A any] func() A
+type DoubleVariantEnum[E any, A any, B any] func() (A, B)
 
-func NewSingleVariantEnum[E Enum[any], A any, V ~func(a E) A]() func(A) V {
+func NewSingleVariantEnum[V ~func() A, A any]() func(A) V {
 	return func(a A) V {
-		return func(e E) A {
+		return func() A {
 			return a
 		}
 	}
 }
 
+func NewDoubleVariantEnum[V ~func() (A, B), A any, B any]() func(A, B) V {
+	return func(a A, b B) V {
+		return func() (A, B) {
+			return a, b
+		}
+	}
+}
+
+type Enum[E any] interface {
+	Type() E
+}
+
 type MyEnum Enum[MyEnum]
 
-type MySingleValueEnum[E MyEnum, A any] func(a E) A
+type MySingleValueEnum SingleVariantEnum[MyEnum, int]
 
-var S1 = NewSingleVariantEnum[MyEnum, int, MySingleValueEnum[MyEnum, int]]()
+func (v MySingleValueEnum) Type() MyEnum {
+	return v
+}
+
+type MyDoubleValueEnum DoubleVariantEnum[MyEnum, int, string]
+
+func (v MyDoubleValueEnum) Type() MyEnum {
+	return v
+}
 
 type MySecondEnum Enum[MySecondEnum]
 
-var S2 = NewSingleVariantEnum[MySecondEnum, int, MySingleValueEnum[MySecondEnum, int]]()
-
 func TestEnums(t *testing.T) {
-	var genericEnumValue MyEnum = S1(42)
-	var genericEnumValue2 MySecondEnum = S2(53)
+	var genericEnumValue MyEnum
+	S := NewSingleVariantEnum[MySingleValueEnum]()
+	D := NewDoubleVariantEnum[MyDoubleValueEnum]()
+	genericEnumValue = S(42)
 
 	switch e := genericEnumValue.(type) {
-	case MySingleValueEnum[MyEnum, int]:
-		t.Log("1:", e(genericEnumValue))
-	case MySingleValueEnum[MySecondEnum, int]:
-		t.Log("2:", e(genericEnumValue))
+	case MySingleValueEnum:
+		t.Log("1:", e())
+	case MyDoubleValueEnum:
+		a, b := e()
+		t.Log("2:", a, b)
 	default:
 		t.Log("Unknown enum type")
 	}
 
-	switch e := genericEnumValue2.(type) {
-	case MySingleValueEnum[MyEnum, int]:
-		t.Log("1:", e(genericEnumValue2))
-	case MySingleValueEnum[MySecondEnum, int]:
-		t.Log("2:", e(genericEnumValue2))
+	genericEnumValue = D(42, "Hello")
+
+	switch e := genericEnumValue.(type) {
+	case MySingleValueEnum:
+		t.Log("1:", e())
+	case MyDoubleValueEnum:
+		a, b := e()
+		t.Log("2:", a, b)
 	default:
 		t.Log("Unknown enum type")
 	}
