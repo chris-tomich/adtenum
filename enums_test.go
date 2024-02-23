@@ -2,8 +2,8 @@ package rustyenums
 
 import "testing"
 
-type SingleVariantEnum[E any, A any] func() A
-type DoubleVariantEnum[E any, A any, B any] func() (A, B)
+type SingleVariantEnum[A any] func() A
+type DoubleVariantEnum[A any, B any] func() (A, B)
 
 func NewSingleVariantEnum[V ~func() A, A any]() func(A) V {
 	return func(a A) V {
@@ -27,13 +27,13 @@ type Enum[E any] interface {
 
 type MyEnum Enum[MyEnum]
 
-type MySingleValueEnum SingleVariantEnum[MyEnum, int]
+type MySingleValueEnum SingleVariantEnum[int]
 
 func (val MySingleValueEnum) EnumType() MyEnum {
 	return val
 }
 
-type MyDoubleValueEnum DoubleVariantEnum[MyEnum, int, string]
+type MyDoubleValueEnum DoubleVariantEnum[int, string]
 
 func (val MyDoubleValueEnum) EnumType() MyEnum {
 	return val
