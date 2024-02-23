@@ -22,21 +22,21 @@ func NewDoubleVariantEnum[V ~func() (A, B), A any, B any]() func(A, B) V {
 }
 
 type Enum[E any] interface {
-	Type() E
+	AsEnum() E
 }
 
 type MyEnum Enum[MyEnum]
 
 type MySingleValueEnum SingleVariantEnum[MyEnum, int]
 
-func (v MySingleValueEnum) Type() MyEnum {
-	return v
+func (val MySingleValueEnum) AsEnum() MyEnum {
+	return val
 }
 
 type MyDoubleValueEnum DoubleVariantEnum[MyEnum, int, string]
 
-func (v MyDoubleValueEnum) Type() MyEnum {
-	return v
+func (val MyDoubleValueEnum) AsEnum() MyEnum {
+	return val
 }
 
 type MySecondEnum Enum[MySecondEnum]
