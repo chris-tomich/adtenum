@@ -1,108 +1,89 @@
 package rustyenums
 
-import "testing"
+import (
+	"fmt"
+	"testing"
+)
 
-type StaticEnum[A any] func() A
-type SingleVariantEnum[A any] func() A
-type DoubleVariantEnum[A any, B any] func() (A, B)
+type WebEvent Enum[WebEvent]
 
-func NewStaticEnum[V ~func() A, A any](val A) func() V {
-	return func() V {
-		return func() A {
-			return val
-		}
-	}
-}
+type PageLoadValue StaticValue[string]
 
-func NewSingleVariantEnum[V ~func() A, A any]() func(A) V {
-	return func(a A) V {
-		return func() A {
-			return a
-		}
-	}
-}
+var NewPageLoad func() PageLoadValue = CreateStaticValueConstructor[PageLoadValue]("PageLoad")
 
-func NewDoubleVariantEnum[V ~func() (A, B), A any, B any]() func(A, B) V {
-	return func(a A, b B) V {
-		return func() (A, B) {
-			return a, b
-		}
-	}
-}
-
-type Enum[E any] interface {
-	EnumType() E
-}
-
-type MyEnum Enum[MyEnum]
-
-type MyStaticValueEnum StaticEnum[string]
-
-func (val MyStaticValueEnum) EnumType() MyEnum {
+func (val PageLoadValue) EnumType() WebEvent {
 	return val
 }
 
-type MySingleValueEnum SingleVariantEnum[int]
+type PageUnloadValue StaticValue[string]
 
-func (val MySingleValueEnum) EnumType() MyEnum {
+var NewPageUnload func() PageUnloadValue = CreateStaticValueConstructor[PageUnloadValue]("PageUnload")
+
+func (val PageUnloadValue) EnumType() WebEvent {
 	return val
 }
 
-type MyDoubleValueEnum DoubleVariantEnum[int, string]
+type KeyPressValue OneVariantValue[rune]
 
-func (val MyDoubleValueEnum) EnumType() MyEnum {
+var NewKeyPress func(rune) KeyPressValue = CreateOneVariantValueConstructor[KeyPressValue]()
+
+func (val KeyPressValue) EnumType() WebEvent {
 	return val
 }
 
-type MySecondEnum Enum[MySecondEnum]
+type PasteValue OneVariantValue[string]
+
+var NewPaste func(string) PasteValue = CreateOneVariantValueConstructor[PasteValue]()
+
+func (val PasteValue) EnumType() WebEvent {
+	return val
+}
+
+type ClickValue TwoVariantValue[int, int]
+
+var NewClick func(int, int) ClickValue = CreateTwoVariantValueConstructor[ClickValue]()
+
+func (val ClickValue) EnumType() WebEvent {
+	return val
+}
+
+func inspect(event WebEvent) string {
+	switch e := event.(type) {
+	case PageLoadValue:
+		return fmt.Sprint(e())
+	case PageUnloadValue:
+		return fmt.Sprint(e())
+	case KeyPressValue:
+		return fmt.Sprintf("%c", e())
+	case PasteValue:
+		return fmt.Sprint(e())
+	case ClickValue:
+		return fmt.Sprint(e())
+	default:
+		return "Unknown"
+	}
+}
 
 func TestEnums(t *testing.T) {
-	var genericEnumValue MyEnum
-	A := NewStaticEnum[MyStaticValueEnum]("Hello, World!")
-	S := NewSingleVariantEnum[MySingleValueEnum]()
-	D := NewDoubleVariantEnum[MyDoubleValueEnum]()
+	pressed := NewKeyPress('x')
+	pasted := NewPaste("my text")
+	click := NewClick(20, 80)
+	load := NewPageLoad()
+	unload := NewPageUnload()
 
-	genericEnumValue = A()
-
-	switch e := genericEnumValue.(type) {
-	case MyStaticValueEnum:
-		t.Log("0:", e())
-	case MySingleValueEnum:
-		t.Log("1:", e())
-	case MyDoubleValueEnum:
-		a, b := e()
-		t.Log("2:", a, b)
-	default:
-		t.Log("Unknown enum type")
+	if inspect(pressed) != "x" {
+		t.Errorf("The inspect function did not return the expected value for KeyPress")
 	}
-
-	genericEnumValue = S(42)
-
-	switch e := genericEnumValue.(type) {
-	case MyStaticValueEnum:
-		t.Log("0:", e())
-	case MySingleValueEnum:
-		t.Log("1:", e())
-	case MyDoubleValueEnum:
-		a, b := e()
-		t.Log("2:", a, b)
-	default:
-		t.Log("Unknown enum type")
+	if inspect(pasted) != "my text" {
+		t.Errorf("The inspect function did not return the expected value for Paste")
 	}
-
-	genericEnumValue = D(42, "Hello")
-
-	switch e := genericEnumValue.(type) {
-	case MyStaticValueEnum:
-		t.Log("0:", e())
-	case MySingleValueEnum:
-		t.Log("1:", e())
-	case MyDoubleValueEnum:
-		a, b := e()
-		t.Log("2:", a, b)
-	default:
-		t.Log("Unknown enum type")
+	if inspect(click) != "20 80" {
+		t.Errorf("The inspect function did not return the expected value for Click")
 	}
-
-	t.Log("Done!")
+	if inspect(load) != "PageLoad" {
+		t.Errorf("The inspect function did not return the expected value for PageLoad")
+	}
+	if inspect(unload) != "PageUnload" {
+		t.Errorf("The inspect function did not return the expected value for PageUnload")
+	}
 }
