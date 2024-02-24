@@ -39,6 +39,7 @@ type NineVariantValue[A any, B any, C any, D any, E any, F any, G any, H any, I 
 // TenVariantValue is the underlying type used for enumeration values that have ten variant values.
 type TenVariantValue[A any, B any, C any, D any, E any, F any, G any, H any, I any, J any] func() (A, B, C, D, E, F, G, H, I, J)
 
+// CreateConstValueConstructor creates a constructor that can be used to create instances of enumeration values that have a constant value.
 func CreateConstValueConstructor[V ~func() A, A any](val A) func() V {
 	return func() V {
 		return func() A {
@@ -47,6 +48,7 @@ func CreateConstValueConstructor[V ~func() A, A any](val A) func() V {
 	}
 }
 
+// CreateOneVariantValueConstructor creates a constructor that can be used to create instances of enumeration values that have a single variant value.
 func CreateOneVariantValueConstructor[V ~func() A, A any]() func(A) V {
 	return func(a A) V {
 		return func() A {
@@ -55,6 +57,7 @@ func CreateOneVariantValueConstructor[V ~func() A, A any]() func(A) V {
 	}
 }
 
+// CreateTwoVariantValueConstructor creates a constructor that can be used to create instances of enumeration values that have two variant values.
 func CreateTwoVariantValueConstructor[V ~func() (A, B), A any, B any]() func(A, B) V {
 	return func(a A, b B) V {
 		return func() (A, B) {
@@ -63,6 +66,7 @@ func CreateTwoVariantValueConstructor[V ~func() (A, B), A any, B any]() func(A, 
 	}
 }
 
+// CreateThreeVariantValueConstructor creates a constructor that can be used to create instances of enumeration values that have three variant values.
 func CreateThreeVariantValueConstructor[V ~func() (A, B, C), A any, B any, C any]() func(A, B, C) V {
 	return func(a A, b B, c C) V {
 		return func() (A, B, C) {
@@ -71,6 +75,7 @@ func CreateThreeVariantValueConstructor[V ~func() (A, B, C), A any, B any, C any
 	}
 }
 
+// CreateFourVariantValueConstructor creates a constructor that can be used to create instances of enumeration values that have four variant values.
 func CreateFourVariantValueConstructor[V ~func() (A, B, C, D), A any, B any, C any, D any]() func(A, B, C, D) V {
 	return func(a A, b B, c C, d D) V {
 		return func() (A, B, C, D) {
@@ -79,6 +84,7 @@ func CreateFourVariantValueConstructor[V ~func() (A, B, C, D), A any, B any, C a
 	}
 }
 
+// CreateFiveVariantValueConstructor creates a constructor that can be used to create instances of enumeration values that have five variant values.
 func CreateFiveVariantValueConstructor[V ~func() (A, B, C, D, E), A any, B any, C any, D any, E any]() func(A, B, C, D, E) V {
 	return func(a A, b B, c C, d D, e E) V {
 		return func() (A, B, C, D, E) {
@@ -87,6 +93,7 @@ func CreateFiveVariantValueConstructor[V ~func() (A, B, C, D, E), A any, B any, 
 	}
 }
 
+// CreateSixVariantValueConstructor creates a constructor that can be used to create instances of enumeration values that have six variant values.
 func CreateSixVariantValueConstructor[V ~func() (A, B, C, D, E, F), A any, B any, C any, D any, E any, F any]() func(A, B, C, D, E, F) V {
 	return func(a A, b B, c C, d D, e E, f F) V {
 		return func() (A, B, C, D, E, F) {
@@ -95,6 +102,7 @@ func CreateSixVariantValueConstructor[V ~func() (A, B, C, D, E, F), A any, B any
 	}
 }
 
+// CreateSevenVariantValueConstructor creates a constructor that can be used to create instances of enumeration values that have seven variant values.
 func CreateSevenVariantValueConstructor[V ~func() (A, B, C, D, E, F, G), A any, B any, C any, D any, E any, F any, G any]() func(A, B, C, D, E, F, G) V {
 	return func(a A, b B, c C, d D, e E, f F, g G) V {
 		return func() (A, B, C, D, E, F, G) {
@@ -103,6 +111,7 @@ func CreateSevenVariantValueConstructor[V ~func() (A, B, C, D, E, F, G), A any, 
 	}
 }
 
+// CreateEightVariantValueConstructor creates a constructor that can be used to create instances of enumeration values that have eight variant values.
 func CreateEightVariantValueConstructor[V ~func() (A, B, C, D, E, F, G, H), A any, B any, C any, D any, E any, F any, G any, H any]() func(A, B, C, D, E, F, G, H) V {
 	return func(a A, b B, c C, d D, e E, f F, g G, h H) V {
 		return func() (A, B, C, D, E, F, G, H) {
@@ -111,6 +120,7 @@ func CreateEightVariantValueConstructor[V ~func() (A, B, C, D, E, F, G, H), A an
 	}
 }
 
+// CreateNineVariantValueConstructor creates a constructor that can be used to create instances of enumeration values that have nine variant values.
 func CreateNineVariantValueConstructor[V ~func() (A, B, C, D, E, F, G, H, I), A any, B any, C any, D any, E any, F any, G any, H any, I any]() func(A, B, C, D, E, F, G, H, I) V {
 	return func(a A, b B, c C, d D, e E, f F, g G, h H, i I) V {
 		return func() (A, B, C, D, E, F, G, H, I) {
@@ -119,6 +129,7 @@ func CreateNineVariantValueConstructor[V ~func() (A, B, C, D, E, F, G, H, I), A 
 	}
 }
 
+// CreateTenVariantValueConstructor creates a constructor that can be used to create instances of enumeration values that have ten variant values.
 func CreateTenVariantValueConstructor[V ~func() (A, B, C, D, E, F, G, H, I, J), A any, B any, C any, D any, E any, F any, G any, H any, I any, J any]() func(A, B, C, D, E, F, G, H, I, J) V {
 	return func(a A, b B, c C, d D, e E, f F, g G, h H, i I, j J) V {
 		return func() (A, B, C, D, E, F, G, H, I, J) {

@@ -2,7 +2,7 @@
 
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 
-This project provides Rust-style enumerations, also known as algebraic data types (ADTs), for Go. It aims to provide the power and flexibility of pattern matching with enum types to Go. At the moment to use the types and functions in this library to create enums, some boiler plate code is required but there is a plan to create a go generate utility to help reduce manual creation of that boiler plate code.
+This project provides Rust-style enumerations, also known as algebraic data types (ADTs), for Go. It aims to provide the power and flexibility of pattern matching with enum types to Go. At the moment, to use the types and functions in this library to create enums, some boiler plate code is required but there is a plan to create a go generate utility to help reduce manual creation of that boiler plate code.
 
 ## Example
 
