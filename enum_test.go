@@ -9,64 +9,64 @@ import (
 type WebEvent Enum[WebEvent]
 
 // The following section creates the enum value for a PageLoad event.
-// Declare the PageLoadValue enum value as a constant string value.
-type PageLoadValue ConstValue[string]
+// Declare the PageLoad enum value as a constant string value.
+type PageLoad ConstValue[string]
 
 // Here we create a constructor that will generate a value that will always be a string with the value "PageLoad".
 // This provides us with a way to create new values.
-var NewPageLoad func() PageLoadValue = CreateConstValueConstructor[PageLoadValue]("PageLoad")
+var NewPageLoad func() PageLoad = CreateConstValueConstructor[PageLoad]("PageLoad")
 
 // To relate this only to the WebEvent type, we need to implement this method so it returns the type this enum value belongs under.
 // This will provide us with compile time type checking.
-func (val PageLoadValue) EnumType() WebEvent {
+func (val PageLoad) EnumType() WebEvent {
 	return val
 }
 
 // The following section creates the enum value for a PageUnload event.
-// Declare the PageUnloadValue enum value as a constant string value.
-type PageUnloadValue ConstValue[string]
+// Declare the PageUnload enum value as a constant string value.
+type PageUnload ConstValue[string]
 
 // Here we create a constructor that will generate a value that will always be a string with the value "PageUnload".
 // This provides us with a way to create new values.
-var NewPageUnload func() PageUnloadValue = CreateConstValueConstructor[PageUnloadValue]("PageUnload")
+var NewPageUnload func() PageUnload = CreateConstValueConstructor[PageUnload]("PageUnload")
 
-func (val PageUnloadValue) EnumType() WebEvent {
+func (val PageUnload) EnumType() WebEvent {
 	return val
 }
 
 // The following section creates the enum value for a KeyPress event.
-// Declare the KeyPressValue enum value that contains a single value which is a rune.
-type KeyPressValue OneVariantValue[rune]
+// Declare the KeyPress enum value that contains a single value which is a rune.
+type KeyPress OneVariantValue[rune]
 
 // Here we create a constructor that will accept a rune and create an enum value containing that rune.
 // This provides us with a way to create new values of the KeyPress enum value.
-var NewKeyPress func(rune) KeyPressValue = CreateOneVariantValueConstructor[KeyPressValue]()
+var NewKeyPress func(rune) KeyPress = CreateOneVariantValueConstructor[KeyPress]()
 
-func (val KeyPressValue) EnumType() WebEvent {
+func (val KeyPress) EnumType() WebEvent {
 	return val
 }
 
 // The following section creates the enum value for a Paste event.
 // Declare the KeyPressValue enum value that contains a single value which is a string.
-type PasteValue OneVariantValue[string]
+type Paste OneVariantValue[string]
 
 // Here we create a constructor that will accept a string and create an enum value containing that string.
 // This provides us with a way to create new values of the Paste enum value.
-var NewPaste func(string) PasteValue = CreateOneVariantValueConstructor[PasteValue]()
+var NewPaste func(string) Paste = CreateOneVariantValueConstructor[Paste]()
 
-func (val PasteValue) EnumType() WebEvent {
+func (val Paste) EnumType() WebEvent {
 	return val
 }
 
 // The following section creates the enum value for a Click event.
 // Declare the TwoVariantValue enum value that contains two values which are both integers.
-type ClickValue TwoVariantValue[int, int]
+type Click TwoVariantValue[int, int]
 
 // Here we create a constructor that will accept two strings and create an enum value containing the two integers.
 // This provides us with a way to create new values of the Click enum value.
-var NewClick func(int, int) ClickValue = CreateTwoVariantValueConstructor[ClickValue]()
+var NewClick func(int, int) Click = CreateTwoVariantValueConstructor[Click]()
 
-func (val ClickValue) EnumType() WebEvent {
+func (val Click) EnumType() WebEvent {
 	return val
 }
 
@@ -75,15 +75,15 @@ func inspect(event WebEvent) string {
 	// We can now perform a type switch on the WebEvent type to determine which enum value we have.
 	// We can then extract the value from the enum value similar to what could be done in Rust.
 	switch vals := event.(type) {
-	case PageLoadValue:
+	case PageLoad:
 		return fmt.Sprint(vals())
-	case PageUnloadValue:
+	case PageUnload:
 		return fmt.Sprint(vals())
-	case KeyPressValue:
+	case KeyPress:
 		return fmt.Sprintf("%c", vals())
-	case PasteValue:
+	case Paste:
 		return fmt.Sprint(vals())
-	case ClickValue:
+	case Click:
 		return fmt.Sprint(vals())
 	default:
 		return "Unknown"

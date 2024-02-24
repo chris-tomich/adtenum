@@ -13,15 +13,15 @@ func inspect(event WebEvent) string {
 	// We can now perform a type switch on the WebEvent type to determine which enum value we have.
 	// We can then extract the value from the enum value similar to what could be done in Rust.
 	switch vals := event.(type) {
-	case PageLoadValue:
+	case PageLoad:
 		return fmt.Sprint(vals())
-	case PageUnloadValue:
+	case PageUnload:
 		return fmt.Sprint(vals())
-	case KeyPressValue:
+	case KeyPress:
 		return fmt.Sprintf("%c", vals())
-	case PasteValue:
+	case Paste:
 		return fmt.Sprint(vals())
-	case ClickValue:
+	case Click:
 		return fmt.Sprint(vals())
 	default:
 		return "Unknown"
@@ -48,35 +48,35 @@ type WebEvent adtenum.Enum[WebEvent]
 Once you have your enumeration type, you can begin creating the values for the enumeration. All enumeration values use one of the `adtenum` Value types as their underlying type. In the following example we create a constant value which will always have the value `PageLoad`.
 
 ```go
-type PageLoadValue adtenum.ConstValue[string]
+type PageLoad adtenum.ConstValue[string]
 ```
 
 In this next example, we create an enumeration value called `Click` that contains two integers.
 
 ```go
-type ClickValue adtenum.TwoVariantValue[int, int]
+type Click adtenum.TwoVariantValue[int, int]
 ```
 
 Once we've added our values, we now need to create constructors for creating new instances of our enumeration values. In the future, a go generate utility is planned to help with creation of this boiler plate. For our constant value, we need to provide the constant value that will be used for every value of the enumeration value to the `CreateConstValueConstructor`.
 
 ```go
-var NewPageLoad func() PageLoadValue = adtenum.CreateConstValueConstructor[PageLoadValue]("PageLoad")
+var NewPageLoad func() PageLoad = adtenum.CreateConstValueConstructor[PageLoad]("PageLoad")
 ```
 
 For our enumeration value `Click` we create our constructor using `CreateTwoVariantValueConstructor` as in the example below.
 
 ```go
-var NewClick func(int, int) ClickValue = adtenum.CreateTwoVariantValueConstructor[ClickValue]()
+var NewClick func(int, int) Click = adtenum.CreateTwoVariantValueConstructor[Click]()
 ```
 
 Once we've created constructors to create new enumeration values for us, we need to complete the last piece which makes our enumeration value types legitimate values of our enumeration type `WebEvent`. The following code is effectively implementing the interface of our `WebEvent` enumeration type.
 
 ```go
-func (val PageLoadValue) EnumType() WebEvent {
+func (val PageLoad) EnumType() WebEvent {
 	return val
 }
 
-func (val ClickValue) EnumType() WebEvent {
+func (val Click) EnumType() WebEvent {
 	return val
 }
 ```
@@ -86,9 +86,9 @@ Once this is completed, we can now use the enumeration type and it's values. We 
 ```go
 func inspect(event WebEvent) string {
 	switch vals := event.(type) {
-	case PageLoadValue:
+	case PageLoad:
 		return fmt.Sprint(vals())
-	case ClickValue:
+	case Click:
         x, y := vals()
 		return fmt.Sprint(x, y)
 	default:
