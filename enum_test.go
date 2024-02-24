@@ -99,15 +99,19 @@ func TestEnums(t *testing.T) {
 	if inspect(pressed) != "x" {
 		t.Errorf("The inspect function did not return the expected value for KeyPress")
 	}
+
 	if inspect(pasted) != "my text" {
 		t.Errorf("The inspect function did not return the expected value for Paste")
 	}
+
 	if inspect(click) != "20 80" {
 		t.Errorf("The inspect function did not return the expected value for Click")
 	}
+
 	if inspect(load) != "PageLoad" {
 		t.Errorf("The inspect function did not return the expected value for PageLoad")
 	}
+
 	if inspect(unload) != "PageUnload" {
 		t.Errorf("The inspect function did not return the expected value for PageUnload")
 	}
