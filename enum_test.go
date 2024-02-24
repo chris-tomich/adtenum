@@ -74,17 +74,17 @@ func (val ClickValue) EnumType() WebEvent {
 func inspect(event WebEvent) string {
 	// We can now perform a type switch on the WebEvent type to determine which enum value we have.
 	// We can then extract the value from the enum value similar to what could be done in Rust.
-	switch e := event.(type) {
+	switch vals := event.(type) {
 	case PageLoadValue:
-		return fmt.Sprint(e())
+		return fmt.Sprint(vals())
 	case PageUnloadValue:
-		return fmt.Sprint(e())
+		return fmt.Sprint(vals())
 	case KeyPressValue:
-		return fmt.Sprintf("%c", e())
+		return fmt.Sprintf("%c", vals())
 	case PasteValue:
-		return fmt.Sprint(e())
+		return fmt.Sprint(vals())
 	case ClickValue:
-		return fmt.Sprint(e())
+		return fmt.Sprint(vals())
 	default:
 		return "Unknown"
 	}

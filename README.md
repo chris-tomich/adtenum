@@ -6,7 +6,30 @@ This project provides Rust-style enumerations, also known as algebraic data type
 
 ## Example
 
-For an example look at `enum_test.go` which contains a Go port of the WebEvent example written to explain [Rust enumerations in Rust By Example](https://doc.rust-lang.org/rust-by-example/custom_types/enum.html).
+Using `adtenum` package, you're able to create enumerations that contain tuples which can then be used in a type switch as in the following example.
+
+```go
+func inspect(event WebEvent) string {
+	// We can now perform a type switch on the WebEvent type to determine which enum value we have.
+	// We can then extract the value from the enum value similar to what could be done in Rust.
+	switch vals := event.(type) {
+	case PageLoadValue:
+		return fmt.Sprint(vals())
+	case PageUnloadValue:
+		return fmt.Sprint(vals())
+	case KeyPressValue:
+		return fmt.Sprintf("%c", vals())
+	case PasteValue:
+		return fmt.Sprint(vals())
+	case ClickValue:
+		return fmt.Sprint(vals())
+	default:
+		return "Unknown"
+	}
+}
+```
+
+For a more thorough example look at `enum_test.go` which contains a Go port of the WebEvent example written to explain [Rust enumerations in Rust By Example](https://doc.rust-lang.org/rust-by-example/custom_types/enum.html).
 
 ## Quick Start
 
@@ -58,15 +81,16 @@ func (val ClickValue) EnumType() WebEvent {
 }
 ```
 
-Once this is completed, we can now use the enumeration type and it's values. We also now have similar pattern matching capabilities as found with Rust enumerations.
+Once this is completed, we can now use the enumeration type and it's values. We also now have similar pattern matching capabilities as found with Rust enumerations. In the following example, we can use a Go type switch to elicit the enumeration value type into a variable `vals` and then get the values for that tuple.
 
 ```go
 func inspect(event WebEvent) string {
-	switch e := event.(type) {
+	switch vals := event.(type) {
 	case PageLoadValue:
-		return fmt.Sprint(e())
+		return fmt.Sprint(vals())
 	case ClickValue:
-		return fmt.Sprint(e())
+        x, y := vals()
+		return fmt.Sprint(x, y)
 	default:
 		return "Unknown"
 	}
