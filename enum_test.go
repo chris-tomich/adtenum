@@ -1,4 +1,4 @@
-package rustyenums
+package adtenum
 
 import (
 	"fmt"

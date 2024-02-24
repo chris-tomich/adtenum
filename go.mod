@@ -1,3 +1,3 @@
-module github.com/chris-tomich/rusty-enums
+module github.com/chris-tomich/adtenum
 
 go 1.20

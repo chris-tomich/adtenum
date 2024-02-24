@@ -1,4 +1,4 @@
-package rustyenums
+package adtenum
 
 type Enum[E any] interface {
 	EnumType() E
