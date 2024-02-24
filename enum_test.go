@@ -9,12 +9,12 @@ import (
 type WebEvent Enum[WebEvent]
 
 // The following section creates the enum value for a PageLoad event.
-// Declare the PageLoadValue enum value as a static string value.
-type PageLoadValue StaticValue[string]
+// Declare the PageLoadValue enum value as a constant string value.
+type PageLoadValue ConstValue[string]
 
 // Here we create a constructor that will generate a value that will always be a string with the value "PageLoad".
 // This provides us with a way to create new values.
-var NewPageLoad func() PageLoadValue = CreateStaticValueConstructor[PageLoadValue]("PageLoad")
+var NewPageLoad func() PageLoadValue = CreateConstValueConstructor[PageLoadValue]("PageLoad")
 
 // To relate this only to the WebEvent type, we need to implement this method so it returns the type this enum value belongs under.
 // This will provide us with compile time type checking.
@@ -23,12 +23,12 @@ func (val PageLoadValue) EnumType() WebEvent {
 }
 
 // The following section creates the enum value for a PageUnload event.
-// Declare the PageUnloadValue enum value as a static string value.
-type PageUnloadValue StaticValue[string]
+// Declare the PageUnloadValue enum value as a constant string value.
+type PageUnloadValue ConstValue[string]
 
 // Here we create a constructor that will generate a value that will always be a string with the value "PageUnload".
 // This provides us with a way to create new values.
-var NewPageUnload func() PageUnloadValue = CreateStaticValueConstructor[PageUnloadValue]("PageUnload")
+var NewPageUnload func() PageUnloadValue = CreateConstValueConstructor[PageUnloadValue]("PageUnload")
 
 func (val PageUnloadValue) EnumType() WebEvent {
 	return val

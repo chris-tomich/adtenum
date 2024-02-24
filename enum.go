@@ -1,22 +1,45 @@
 package adtenum
 
+// Enum is a generic interface that all enumerations must use as the underlying type.
+// It is implemented by the enumeration values to provide compile time type checking of enumeration values.
 type Enum[E any] interface {
 	EnumType() E
 }
 
-type StaticValue[A any] func() A
+// ConstValue is the underlying type used for enumeration values that have a constant value.
+type ConstValue[A any] func() A
+
+// OneVariantValue is the underlying type used for enumeration values that have a single variant value.
 type OneVariantValue[A any] func() A
+
+// TwoVariantValue is the underlying type used for enumeration values that have two variant values.
 type TwoVariantValue[A any, B any] func() (A, B)
+
+// ThreeVariantValue is the underlying type used for enumeration values that have three variant values.
 type ThreeVariantValue[A any, B any, C any] func() (A, B, C)
+
+// FourVariantValue is the underlying type used for enumeration values that have four variant values.
 type FourVariantValue[A any, B any, C any, D any] func() (A, B, C, D)
+
+// FiveVariantValue is the underlying type used for enumeration values that have five variant values.
 type FiveVariantValue[A any, B any, C any, D any, E any] func() (A, B, C, D, E)
+
+// SixVariantValue is the underlying type used for enumeration values that have six variant values.
 type SixVariantValue[A any, B any, C any, D any, E any, F any] func() (A, B, C, D, E, F)
+
+// SevenVariantValue is the underlying type used for enumeration values that have seven variant values.
 type SevenVariantValue[A any, B any, C any, D any, E any, F any, G any] func() (A, B, C, D, E, F, G)
+
+// EightVariantValue is the underlying type used for enumeration values that have eight variant values.
 type EightVariantValue[A any, B any, C any, D any, E any, F any, G any, H any] func() (A, B, C, D, E, F, G, H)
+
+// NineVariantValue is the underlying type used for enumeration values that have nine variant values.
 type NineVariantValue[A any, B any, C any, D any, E any, F any, G any, H any, I any] func() (A, B, C, D, E, F, G, H, I)
+
+// TenVariantValue is the underlying type used for enumeration values that have ten variant values.
 type TenVariantValue[A any, B any, C any, D any, E any, F any, G any, H any, I any, J any] func() (A, B, C, D, E, F, G, H, I, J)
 
-func CreateStaticValueConstructor[V ~func() A, A any](val A) func() V {
+func CreateConstValueConstructor[V ~func() A, A any](val A) func() V {
 	return func() V {
 		return func() A {
 			return val
