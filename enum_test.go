@@ -70,6 +70,7 @@ func (val ClickValue) EnumType() WebEvent {
 	return val
 }
 
+// This example was ported from Rust By Example at the following link https://doc.rust-lang.org/rust-by-example/custom_types/enum.html.
 func inspect(event WebEvent) string {
 	// We can now perform a type switch on the WebEvent type to determine which enum value we have.
 	// We can then extract the value from the enum value similar to what could be done in Rust.
@@ -89,6 +90,7 @@ func inspect(event WebEvent) string {
 	}
 }
 
+// This example used in this tests was ported from Rust By Example at the following link https://doc.rust-lang.org/rust-by-example/custom_types/enum.html.
 func TestEnums(t *testing.T) {
 	pressed := NewKeyPress('x')
 	pasted := NewPaste("my text")
